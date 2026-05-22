@@ -20,6 +20,7 @@ data class Part(
 
 @JsonClass(generateAdapter = true)
 data class Content(
+    @Json(name = "role") val role: String? = null,
     @Json(name = "parts") val parts: List<Part>
 )
 

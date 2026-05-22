@@ -139,6 +139,155 @@ object VocabularyData {
                 VocabularyItem("薬 (くすり)", "Kusuri", "Obat", "Bahan medis yang diminum untuk menyembuhkan penyakit."),
                 VocabularyItem("お大事に", "O-daiji ni", "Semoga cepat sembuh", "Diucapkan kepada orang yang sedang terkena sakit.")
             )
+        ),
+        TopicCategory(
+            name = "Cuaca & Musim",
+            description = "Kosakata populer dan ekspresi tentang cuaca serta empat musim di Jepang.",
+            iconName = "weather",
+            items = listOf(
+                VocabularyItem("天気 (てんき)", "Tenki", "Cuaca", "Keadaan alam sehari-hari."),
+                VocabularyItem("雨 (あめ)", "Ame", "Hujan", "Sering turun di musim hujan (tsuyu)."),
+                VocabularyItem("晴れ (はれ)", "Hare", "Cerah / Terang", "Cuaca bagus dan bersinar."),
+                VocabularyItem("雪 (ゆき)", "Yuki", "Salju", "Sangat dinanti oleh turis di musim dingin."),
+                VocabularyItem("暑い", "Atsui", "Panas (cuaca)", "Udara terasa terik."),
+                VocabularyItem("寒い", "Samui", "Dingin (cuaca)", "Udara dingin menusuk tulang."),
+                VocabularyItem("春 (はる)", "Haru", "Musim Semi", "Musim bunga sakura bermekaran."),
+                VocabularyItem("夏 (なつ)", "Natsu", "Musim Panas", "Identik dengan festival kembang api (Hanabi) dan festival musim panas."),
+                VocabularyItem("秋 (あき)", "Aki", "Musim Gugur", "Musim daun-daun berubah warna menjadi merah (Momiji)."),
+                VocabularyItem("冬 (ふゆ)", "Fuyu", "Musim Dingin", "Musim bersalju di bagian utara Jepang.")
+            )
+        ),
+        TopicCategory(
+            name = "Belanja & Pasar",
+            description = "Kosakata penting saat bertransaksi, menanyakan ketersediaan barang, dan menawar belanjaan.",
+            iconName = "shopping",
+            items = listOf(
+                VocabularyItem("買い物 (かいもの)", "Kaimono", "Belanja", "Aktivitas membeli barang."),
+                VocabularyItem("店 (みせ)", "Mise", "Toko", "Tempat menjual barang atau jasa."),
+                VocabularyItem("これを見せてください", "Kore wo misete kudasai", "Tolong perlihatkan yang ini", "Sambil menunjuk barang yang dipajang."),
+                VocabularyItem("カードは使えますか", "Kaado wa tsakaemasu ka", "Apakah bisa pakai kartu?", "Menanyakan pembayaran nontunai."),
+                VocabularyItem("袋は要りません", "Fukuro wa irimasen", "Tidak usah pakai kantong plastik", "Bentuk ramah lingkungan jika membawa tas sendiri."),
+                VocabularyItem("試着できますか", "Shichaku dekimasu ka", "Boleh saya coba pakai dulu?", "Meminta izin mencoba pakaian/sepatu."),
+                VocabularyItem("安い", "Yasui", "Murah", "Harga barang terjangkau."),
+                VocabularyItem("高い", "Takai", "Mahal / Tinggi", "Harga barang di luar anggaran.")
+            )
+        ),
+        TopicCategory(
+            name = "Pendidikan & Sekolah",
+            description = "Istilah-istilah umum di lingkungan sekolah, perkuliahan, dan ruang kelas.",
+            iconName = "school",
+            items = listOf(
+                VocabularyItem("学校 (がっこう)", "Gakkou", "Sekolah", "Tempat menuntut ilmu secara formal."),
+                VocabularyItem("先生 (せんせい)", "Sensei", "Guru / Dosen", "Panggilan hormat untuk pengajar atau profesi terhormat."),
+                VocabularyItem("学生 (がくせい)", "Gakusei", "Pelajar / Mahasiswa", "Orang yang sedang belajar di sekolah/kampus."),
+                VocabularyItem("教室 (きょうしつ)", "Kyoushitsu", "Ruang kelas", "Ruangan tempat proses belajar mengajar."),
+                VocabularyItem("宿題 (しゅくだい)", "Shukudai", "Pekerjaan Rumah (PR)", "Tugas mandiri yang diberikan guru."),
+                VocabularyItem("勉強します", "Benkyou shimasu", "Belajar", "Melakukan aktivitas belajar."),
+                VocabularyItem("日本語 (にほんご)", "Nihongo", "Bahasa Jepang", "Bahasa resmi negara Jepang."),
+                VocabularyItem("辞書 (じしょ)", "Jisho", "Kamus", "Buku panduan kosakata.")
+            )
+        ),
+        TopicCategory(
+            name = "Hobi & Rekreasi",
+            description = "Kosakata seputar hobi, kesenangan sehari-hari, dan aktivitas rekreasi pengisi waktu luang.",
+            iconName = "sports_esports",
+            items = listOf(
+                VocabularyItem("趣味 (しゅみ)", "Shumi", "Hobi / Kegemaran", "Kata umum untuk menyebut aktivitas disukai."),
+                VocabularyItem("写真 (しゃしん)", "Shashin", "Foto / Fotografi", "Sering digabungkan menjadi 'Shashin wo torimasu' (mengambil foto)."),
+                VocabularyItem("読書 (どくしょ)", "Dokusho", "Membaca buku", "Aktivitas membaca karya tulis atau buku."),
+                VocabularyItem("映画 (えいが)", "Eiga", "Film / Sinema", "Industri perfilman Jepang dikenal dengan keindahan sinematografinya."),
+                VocabularyItem("音楽 (おんがく)", "Ongaku", "Musik", "Secara literal berarti 'menikmati suara'."),
+                VocabularyItem("旅行 (りょこう)", "Ryokou", "Traveling / Liburan", "Kegiatan bepergian menjelajah tempat baru."),
+                VocabularyItem("アニメ", "Anime", "Animasi Jepang", "Karya anime sangat digemari penikmat pop culture seluruh dunia."),
+                VocabularyItem("ゲーム", "Geemu", "Game / Permainan elektronik", "Sektor permainan gawai atau konsol."),
+                VocabularyItem("絵を描く (えをかく)", "E wo kaku", "Menggambar / Melukis", "Menciptakan karya seni mural atau sketsa."),
+                VocabularyItem("カラオケ", "Karaoke", "Karaoke", "Seni bernyanyi populer di box kecil bersama teman.")
+            )
+        ),
+        TopicCategory(
+            name = "Hewan & Alam",
+            description = "Nama-nama fauna dan keindahan lingkungan alam sekitar dalam Bahasa Jepang.",
+            iconName = "nature",
+            items = listOf(
+                VocabularyItem("動物 (どうぶつ)", "Doubutsu", "Hewan / Binatang", "Secara harfiah bermakna 'makhluk bergerak'."),
+                VocabularyItem("犬 (いぬ)", "Inu", "Anjing", "Sifat kesetiaannya diabadikan pada monumen patung Hachiko di Shibuya."),
+                VocabularyItem("猫 (ねこ)", "Neko", "Kucing", "Budaya Maneki-Neko (kucing pemanggil keberuntungan) sangat disukai di pertokoan."),
+                VocabularyItem("鳥 (とり)", "Tori", "Burung", "Simbol satwa bersayap di udara."),
+                VocabularyItem("魚 (さかな)", "Sakana", "Ikan", "Elemen fundamental hidangan pesisir Jepang."),
+                VocabularyItem("森 (もり)", "Mori", "Hutan", "Lambang rimbun pepohonan hijau."),
+                VocabularyItem("山 (やま)", "Yama", "Gunung", "Gunung legendaris nasional Jepang adalah Gunung Fuji."),
+                VocabularyItem("川 (かわ)", "Kawa", "Sungai", "Umumnya memiliki aliran air yang sangat jernih di pedesaan Jepang."),
+                VocabularyItem("海 (うみ)", "Umi", "Laut / Samudra", "Wilayah kepulauan Jepang dikelilingi lautan luas."),
+                VocabularyItem("花 (はな)", "Hana", "Bunga", "Kegiatan melihat bunga mekar disebut 'Hanami'.")
+            )
+        ),
+        TopicCategory(
+            name = "Pekerjaan & Karir",
+            description = "Istilah profesi, pekerjaan sehari-hari, dan bidang industri ekonomi.",
+            iconName = "work",
+            items = listOf(
+                VocabularyItem("仕事 (しごと)", "Shigoto", "Pekerjaan / Karir", "Melaksanakan tugas profesi."),
+                VocabularyItem("会社員 (かいしゃいん)", "Kaishain", "Karyawan perusahaan", "Pekerja korporasi, dikenal juga dengan istilah Salaryman."),
+                VocabularyItem("医者 (いしゃ)", "Isha", "Dokter / Tabib", "Profesional yang mendiagnosis dan memberi pengobatan medis."),
+                VocabularyItem("看護師 (かんごし)", "Kangoshi", "Perawat / Suster", "Menjaga dan merawat pasien di rumah sakit."),
+                VocabularyItem("警察官 (けいさつかん)", "Keisatsukan", "Polisi", "Menjaga kedamaian lingkungan pemukiman Jepang (Koban)."),
+                VocabularyItem("歌手 (かしゅ)", "Kashu", "Penyanyi / Vokalis", "Orang yang bernyanyi profesional."),
+                VocabularyItem("エンジニア", "Enjinia", "Insinyur / Engineer", "Insinyur teknologi perangkat keras maupun lunak."),
+                VocabularyItem("公務員 (こうむいん)", "Koumuin", "PNS / Pegawai Pemerintah", "Pekerja sektor administratif publik."),
+                VocabularyItem("作家 (さっか)", "Sakka", "Penulis / Novelis", "Kreator naskah atau literatur cerita."),
+                VocabularyItem("農家 (のうか)", "Nouka", "Petani / Pelaku Agrikultur", "Penghasil produk pertanian unggulan seperti beras premium.")
+            )
+        ),
+        TopicCategory(
+            name = "Warna & Desain",
+            description = "Kosakata palet warna-warni dan estetika bentuk visual.",
+            iconName = "palette",
+            items = listOf(
+                VocabularyItem("色 (いろ)", "Iro", "Warna", "Unsur estetika rona visual."),
+                VocabularyItem("赤 (あか)", "Aka", "Merah", "Warna lingkaran matahari pada bendera kebangsaan Jepang."),
+                VocabularyItem("青 (あお)", "Ao", "Biru", "Warna laut yang luas atau langit tak berawan."),
+                VocabularyItem("白 (しろ)", "Shiro", "Putih", "Mencerminkan lambang suci dan kepolosan."),
+                VocabularyItem("黒 (くろ)", "Kuro", "Hitam", "Kelam atau kegelapan gelap gulita."),
+                VocabularyItem("黄色 (きいろ)", "Kiiro", "Kuning", "Seperti warna buah lemon ranum."),
+                VocabularyItem("緑 (みどり)", "Midori", "Hijau", "Merupakan simbol alam asri atau warna minuman Matcha."),
+                VocabularyItem("茶色 (ちゃいろ)", "Chairo", "Cokelat (warna)", "Mempunyai makna harfiah warna air seduhan teh."),
+                VocabularyItem("オレンジ", "Orenji", "Oranye / Jingga", "Serapan asimilasi untuk warna jeruk."),
+                VocabularyItem("ピンク", "Pinku", "Merah muda / Pink", "Rona ikonik kelopak sakura di musim semi.")
+            )
+        ),
+        TopicCategory(
+            name = "Transportasi Umum",
+            description = "Berbagai kendaraan dan infrastruktur perjalanan komuter harian.",
+            iconName = "commute",
+            items = listOf(
+                VocabularyItem("電車 (でんしゃ)", "Densha", "Kereta Listrik", "Urat nadi transportasi utama metropolitan Jepang."),
+                VocabularyItem("新幹線 (しんかんせん)", "Shinkansen", "Kereta Peluru (Super cepat)", "Salah satu mahakarya teknologi transportasi tercepat di dunia."),
+                VocabularyItem("バス", "Basu", "Bus", "Komuter darat berjadwal ketat."),
+                VocabularyItem("飛行機 (ひこうき)", "Hikouki", "Pesawat Terbang", "Digunakan untuk menempuh perjalanan udara lintas negara."),
+                VocabularyItem("自転車 (じてんしゃ)", "Jitensha", "Sepeda", "Bersepeda santai melewati jalur pemukiman padat."),
+                VocabularyItem("タクシー", "Takushii", "Taksi", "Transportasi luks yang pintunya terbuka otomatis bagi penumpang."),
+                VocabularyItem("切符売り場 (きっぷうりば)", "Kippu uriba", "Loket Tiket", "Konsol tempat membeli tiket fisik rute jarak pendek."),
+                VocabularyItem("改札口 (かいさつぐち)", "Kaisatsuguchi", "Gerbang Tiket otomatis", "Mesin pemindai kartu transit seperti Suica atau Tarjeta."),
+                VocabularyItem("車 (くるま)", "Kuruma", "Mobil", "Secara umum berarti kendaraan beroda."),
+                VocabularyItem("地下鉄 (ちかてつ)", "Chikatetsu", "Subway / Kereta Bawah Tanah", "Transportasi bawah tanah penembus Tokyo.")
+            )
+        ),
+        TopicCategory(
+            name = "Rumah & Peralatan",
+            description = "Istilah bagian rumah tempat tinggal dan sarana perabot rumah tangga.",
+            iconName = "home",
+            items = listOf(
+                VocabularyItem("家 (いえ)", "Ie", "Rumah / Hunian", "Bangunan tempat bermukim keluarga."),
+                VocabularyItem("部屋 (へや)", "Heya", "Kamar / Ruangan", "Area privasi di dalam rumah."),
+                VocabularyItem("テレビ", "Terebi", "Televisi / TV", "Kata serapan untuk layar kotak hiburan keluarga."),
+                VocabularyItem("冷蔵庫 (れいぞうこ)", "Reizouko", "Lemari Es / Kulkas", "Mesin pendingin bahan makanan pokok."),
+                VocabularyItem("洗濯機 (せんたくき)", "Sentakuki", "Mesin Cuci", "Alat penampung pembilas baju otomatis."),
+                VocabularyItem("電話 (でんわ)", "Denwa", "Telepon", "Saluran suara interkom komunikasi jarak jauh."),
+                VocabularyItem("鍵 (かぎ)", "Kagi", "Kunci", "Perangkat penting pembuka pintu utama."),
+                VocabularyItem("机 (つくえ)", "Tsukue", "Meja", "Dipakai belajar, berhias, atau membalas surat."),
+                VocabularyItem("椅子 (いす)", "Isu", "Kursi / Penyangga duduk", "Tempat mendarat bersantai."),
+                VocabularyItem("お風呂 (おふろ)", "O-furo", "Berendam / Bak Mandi", "Berendam bak mandi air panas adalah tradisi relaksasi harian penting di Jepang.")
+            )
         )
     )
 }

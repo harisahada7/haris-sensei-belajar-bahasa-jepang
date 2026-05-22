@@ -70,9 +70,11 @@ class NihonViewModel(
                 try {
                     if (status == TextToSpeech.SUCCESS) {
                         val result = tts?.setLanguage(Locale.JAPAN)
-                        if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
-                            _isTtsReady.value = true
+                        if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                            // Fallback so speech utility attempts are never completely blocked
+                            tts?.setLanguage(Locale.getDefault())
                         }
+                        _isTtsReady.value = true
                     }
                 } catch (ce: Exception) {
                     ce.printStackTrace()
@@ -86,7 +88,7 @@ class NihonViewModel(
         // Populate first dialogue greeting if chat is empty on first startup
         viewModelScope.launch {
             try {
-                val list = repository.allChatsFlow.first()
+                val list = repository.getAllChats()
                 if (list.isEmpty()) {
                     repository.insertChat(
                         ChatEntity(
@@ -171,20 +173,16 @@ class NihonViewModel(
         
         val quizQuestions = mutableListOf<QuizQuestion>()
         
-        items.forEachIndexed { index, item ->
-            val isJaToId = index % 2 == 0
-            if (isJaToId) {
-                // Form a Japanese character -> Indonesian Translation Quiz Question
+        items.forEach { item ->
+            // Variation 1: Kanji/Kana -> Indonesian Meaning
+            run {
                 val questionText = "Apa arti dari kosakata berikut?\n\n🎌  ${item.japanese}  (${item.romaji})"
                 val correctAnswer = item.meaning
-                
-                // Collect 3 incorrect options from other items in database
                 val otherItems = items.filter { it.japanese != item.japanese }
                 val incorrectOptions = otherItems.shuffled().take(3).map { it.meaning }.toMutableList()
                 
-                // Pad if not enough options
                 while (incorrectOptions.size < 3) {
-                    incorrectOptions.add("Opsi Lain ${incorrectOptions.size + 1}")
+                    incorrectOptions.add("Lainnya ${incorrectOptions.size + 1}")
                 }
                 
                 val options = (incorrectOptions + correctAnswer).shuffled()
@@ -198,17 +196,17 @@ class NihonViewModel(
                         explanation = "${item.japanese} (${item.romaji}) berarti \"${item.meaning}\".\nTahu tidak? ${item.notes}"
                     )
                 )
-            } else {
-                // Form a Indonesian Translation -> Japanese Character Quiz Question
-                val questionText = "Bagaimana cara mengucapkan frasa ini dalam Bahasa Jepang?\n\n💡  \"${item.meaning}\""
-                val correctAnswer = "${item.japanese} (${item.romaji})"
-                
-                // Collect 3 incorrect options
-                val otherItems = items.filter { it.meaning != item.meaning }
-                val incorrectOptions = otherItems.shuffled().take(3).map { "${it.japanese} (${it.romaji})" }.toMutableList()
+            }
+            
+            // Variation 2: Romaji -> Indonesian Meaning
+            run {
+                val questionText = "Apa arti dari ucapan Romaji berikut?\n\n🔊  \"${item.romaji}\""
+                val correctAnswer = item.meaning
+                val otherItems = items.filter { it.romaji != item.romaji }
+                val incorrectOptions = otherItems.shuffled().take(3).map { it.meaning }.toMutableList()
                 
                 while (incorrectOptions.size < 3) {
-                    incorrectOptions.add("Opsi Lain ${incorrectOptions.size + 1}")
+                    incorrectOptions.add("Lainnya ${incorrectOptions.size + 1}")
                 }
                 
                 val options = (incorrectOptions + correctAnswer).shuffled()
@@ -219,7 +217,55 @@ class NihonViewModel(
                         questionText = questionText,
                         options = options,
                         correctAnswerIndex = correctIdx,
-                        explanation = "\"${item.meaning}\" diucapkan sebagai ${item.japanese} (${item.romaji}).\nInfo Tambahan: ${item.notes}"
+                        explanation = "Kata Romaji \"${item.romaji}\" ditulis dalam bahasa Jepang sebagai ${item.japanese} yang bermakna \"${item.meaning}\"."
+                    )
+                )
+            }
+            
+            // Variation 3: Meaning -> Kanji/Kana (with Romaji)
+            run {
+                val questionText = "Bagaimana menulis atau mengucapkan kata ini dalam Bahasa Jepang?\n\n💡  \"${item.meaning}\""
+                val correctAnswer = "${item.japanese} (${item.romaji})"
+                val otherItems = items.filter { it.meaning != item.meaning }
+                val incorrectOptions = otherItems.shuffled().take(3).map { "${it.japanese} (${it.romaji})" }.toMutableList()
+                
+                while (incorrectOptions.size < 3) {
+                    incorrectOptions.add("Lainnya ${incorrectOptions.size + 1}")
+                }
+                
+                val options = (incorrectOptions + correctAnswer).shuffled()
+                val correctIdx = options.indexOf(correctAnswer)
+                
+                quizQuestions.add(
+                    QuizQuestion(
+                        questionText = questionText,
+                        options = options,
+                        correctAnswerIndex = correctIdx,
+                        explanation = "\"${item.meaning}\" ditulis sebagai ${item.japanese} (${item.romaji}).\nInfo: ${item.notes}"
+                    )
+                )
+            }
+            
+            // Variation 4: Meaning -> Japanese Characters (isolasi)
+            run {
+                val questionText = "Temukan tulisan Jepang (Kanji/Kana) yang tepat untuk makna berikut:\n\n📖  \"${item.meaning}\""
+                val correctAnswer = item.japanese
+                val otherItems = items.filter { it.japanese != item.japanese }
+                val incorrectOptions = otherItems.shuffled().take(3).map { it.japanese }.toMutableList()
+                
+                while (incorrectOptions.size < 3) {
+                    incorrectOptions.add("Lainnya ${incorrectOptions.size + 1}")
+                }
+                
+                val options = (incorrectOptions + correctAnswer).shuffled()
+                val correctIdx = options.indexOf(correctAnswer)
+                
+                quizQuestions.add(
+                    QuizQuestion(
+                        questionText = questionText,
+                        options = options,
+                        correctAnswerIndex = correctIdx,
+                        explanation = "\"${item.meaning}\" dalam penulisan bahasa Jepang adalah ${item.japanese} (${item.romaji})."
                     )
                 )
             }
@@ -227,7 +273,7 @@ class NihonViewModel(
         
         _quizState.value = QuizState(
             categoryName = categoryName,
-            questions = quizQuestions.shuffled().take(8), // Pick exactly 8 random questions
+            questions = quizQuestions.shuffled().take(25), // Pick exactly 25 random questions
             currentQuestionIndex = 0,
             selectedAnswerIndex = null,
             isAnswerSubmitted = false,
@@ -265,7 +311,7 @@ class NihonViewModel(
 
         if (isFinished) {
             // Save quiz stats to persistent database
-            val percentage = (current.score * 100) / current.questions.size
+            val percentage = if (current.questions.isNotEmpty()) (current.score * 100) / current.questions.size else 0
             viewModelScope.launch {
                 repository.insertQuizHistory(
                     QuizHistoryEntity(

@@ -6,8 +6,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,8 +54,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
 import com.example.R
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -136,9 +137,9 @@ fun NihonMainScreen(viewModel: NihonViewModel) {
             TopAppBar(
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_smiling_mask_logo_1779421311133),
-                            contentDescription = "Haris Sensei Logo",
+                        AsyncImage(
+                            model = R.drawable.img_japanese_teacher_banner_1779432393217,
+                            contentDescription = "Haris Ahada Logo",
                             modifier = Modifier
                                 .size(40.dp)
                                 .clip(RoundedCornerShape(10.dp))
@@ -148,7 +149,7 @@ fun NihonMainScreen(viewModel: NihonViewModel) {
                         Spacer(modifier = Modifier.width(10.dp))
                         Column {
                             Text(
-                                text = "Haris Sensei",
+                                text = "Haris Ahada",
                                 fontWeight = FontWeight.ExtraBold,
                                 fontSize = 20.sp,
                                 style = TextStyle(
@@ -307,12 +308,12 @@ fun BelajarScreen(
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     Column {
-                        Image(
-                            painter = painterResource(id = R.drawable.img_app_cover_1779420927104),
-                            contentDescription = "Cover Haris Sensei Jepang",
+                        AsyncImage(
+                            model = R.drawable.img_japanese_teacher_banner_1779432393217,
+                            contentDescription = "Cover Haris Ahada Jepang",
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(160.dp),
+                                .aspectRatio(16f / 9f),
                             contentScale = ContentScale.Crop
                         )
                         Column(modifier = Modifier.padding(16.dp)) {
@@ -324,7 +325,7 @@ fun BelajarScreen(
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                "Selamat datang di Haris Sensei! Pilih salah satu topik pelajaran di bawah untuk mempelajari kosakata dasar sehari-hari lengkap dengan Romaji dan arti bahasa Indonesianya.",
+                                "Selamat datang di Haris Ahada! Pilih salah satu topik pelajaran di bawah untuk mempelajari kosakata dasar sehari-hari lengkap dengan Romaji dan arti bahasa Indonesianya.",
                                 fontSize = 13.sp,
                                 color = Color.DarkGray,
                                 lineHeight = 18.sp
@@ -475,6 +476,15 @@ fun CategoryCard(
                     "directions" -> "🧭"
                     "family" -> "👪"
                     "health" -> "❤️"
+                    "weather" -> "☀️"
+                    "shopping" -> "🛍️"
+                    "school" -> "🏫"
+                    "sports_esports" -> "🎮"
+                    "nature" -> "🌲"
+                    "work" -> "💼"
+                    "palette" -> "🎨"
+                    "commute" -> "🚊"
+                    "home" -> "🏠"
                     else -> "🎌"
                 }
                 Text(emoji, fontSize = 26.sp)
@@ -520,7 +530,11 @@ fun VocabItemCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Top
             ) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable { onSpeak() }
+                ) {
                     Text(
                         text = item.japanese,
                         fontSize = 24.sp,
@@ -886,8 +900,10 @@ fun TypingBubble() {
 fun QuizScreen(viewModel: NihonViewModel, onGoToLearn: () -> Unit) {
     val quizState by viewModel.quizState.collectAsState()
     val history by viewModel.allQuizHistory.collectAsState()
+    var showCertificate by remember { mutableStateOf(false) }
 
-    if (quizState == null) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (quizState == null) {
         // Show Welcome / Quizzes Hub
         LazyColumn(
             modifier = Modifier
@@ -1176,6 +1192,21 @@ fun QuizScreen(viewModel: NihonViewModel, onGoToLearn: () -> Unit) {
                                 )
                             }
                         }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Button(
+                            onClick = { showCertificate = true },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                                .testTag("view_certificate_button"),
+                            colors = ButtonDefaults.buttonColors(containerColor = HinomaruRed)
+                        ) {
+                            Icon(imageVector = Icons.Default.School, contentDescription = null, tint = Color.White)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Lihat Sertifikat Kelulusan 📜", fontWeight = FontWeight.Bold, color = Color.White)
+                        }
                     }
                 }
 
@@ -1202,7 +1233,7 @@ fun QuizScreen(viewModel: NihonViewModel, onGoToLearn: () -> Unit) {
                             .weight(1f)
                             .height(48.dp)
                             .testTag("quiz_retry_button"),
-                        colors = ButtonColors(DeepZenNavy)
+                        colors = ButtonDefaults.buttonColors(containerColor = DeepZenNavy, contentColor = SakuraPink)
                     ) {
                         Icon(imageVector = Icons.Default.Refresh, contentDescription = null, tint = SakuraPink)
                         Spacer(modifier = Modifier.width(6.dp))
@@ -1399,7 +1430,7 @@ fun QuizScreen(viewModel: NihonViewModel, onGoToLearn: () -> Unit) {
                                 .fillMaxWidth()
                                 .height(48.dp)
                                 .testTag("quiz_submit_answer_button"),
-                            colors = ButtonColors(DeepZenNavy)
+                            colors = ButtonDefaults.buttonColors(containerColor = DeepZenNavy, contentColor = SakuraPink)
                         ) {
                             Text("Verifikasi Jawaban", fontWeight = FontWeight.Bold)
                         }
@@ -1422,16 +1453,19 @@ fun QuizScreen(viewModel: NihonViewModel, onGoToLearn: () -> Unit) {
                 }
             }
         }
+
+        if (showCertificate && quizState != null && quizState!!.isQuizFinished) {
+            QuizCertificateDialog(
+                categoryName = quizState!!.categoryName,
+                score = quizState!!.score,
+                totalQuestions = quizState!!.questions.size,
+                onDismiss = { showCertificate = false }
+            )
+        }
     }
 }
+}
 
-// Custom Helper for Composable ButtonColors definition compatibility
-@Composable
-fun ButtonColors(containerColor: Color) = ButtonDefaults.buttonColors(
-    containerColor = containerColor,
-    contentColor = SakuraPink,
-    disabledContainerColor = containerColor.copy(alpha = 0.5f)
-)
 
 // ============================================
 // SCREEN 4: BOOKMARKS (DICTIONARY PREVIEW)
@@ -1541,7 +1575,11 @@ fun BookmarkListItem(
             modifier = Modifier.padding(14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onSpeak() }
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = bookmark.japanese,
@@ -1604,6 +1642,451 @@ fun BookmarkListItem(
                     tint = Color.DarkGray,
                     modifier = Modifier.size(18.dp)
                 )
+            }
+        }
+    }
+}
+
+// --- CERTIFICATE MODULE ---
+
+data class CertificateTheme(
+    val categoryName: String,
+    val primaryColor: Color,
+    val secondaryColor: Color,
+    val backgroundColor: Color,
+    val emoji: String,
+    val kanjiTitle: String,
+    val certName: String
+)
+
+fun getCertificateTheme(category: String): CertificateTheme {
+    return when (category) {
+        "Salam & Perkenalan" -> CertificateTheme(
+            category,
+            Color(0xFFE91E63), // Pink
+            Color(0xFFFCE4EC), // Light Pink
+            Color(0xFFFFF1F3), // Neutral Soft Pink
+            "🌸",
+            "挨拶と自己紹介", // Aisatsu to jikoshoukai
+            "Sertifikat Sapaan & Perkenalan"
+        )
+        "Angka & Waktu" -> CertificateTheme(
+            category,
+            Color(0xFF0097A7), // Cyan
+            Color(0xFFE0F7FA), // Light Cyan
+            Color(0xFFF0FDFF), // Neutral Cyan
+            "⏰",
+            "数字と時間", // Suuji to jikan
+            "Sertifikat Angka & Penunjuk Waktu"
+        )
+        "Makanan & Restoran" -> CertificateTheme(
+            category,
+            Color(0xFFD32F2F), // Hinomaru Red
+            Color(0xFFFFEBEE), // Light Red
+            Color(0xFFFFF5F5), // Neutral Red
+            "🍣",
+            "飲食とレストラン", // Inshoku to resutoran
+            "Sertifikat Kuliner & Restoran Jepang"
+        )
+        "Percakapan Sehari-hari" -> CertificateTheme(
+            category,
+            Color(0xFF673AB7), // Purple
+            Color(0xFFEDE7F6), // Light Purple
+            Color(0xFFF9F6FC), // Neutral Purple
+            "💬",
+            "日常会話", // Nichijou kaiwa
+            "Sertifikat Percakapan Sehari-Hari"
+        )
+        "Liburan & Perjalanan" -> CertificateTheme(
+            category,
+            Color(0xFF00796B), // Teal
+            Color(0xFFE0F2F1), // Light Teal
+            Color(0xFFF4FBFB), // Neutral Teal
+            "🗻",
+            "旅行と観光", // Ryokou to kankou
+            "Sertifikat Perjalanan & Pariwisata"
+        )
+        "Arah & Navigasi" -> CertificateTheme(
+            category,
+            Color(0xFFE65100), // Orange
+            Color(0xFFFFF3E0), // Light Orange
+            Color(0xFFFFFBF7), // Neutral Orange
+            "🧭",
+            "方向とナビゲーション", // Houkou to nabigeeshon
+            "Sertifikat Arah & Navigasi Jepang"
+        )
+        "Keluarga & Hubungan" -> CertificateTheme(
+            category,
+            Color(0xFFC2185B), // Deep Rose
+            Color(0xFFFCE4EC), // Light Rose
+            Color(0xFFFFF2F6), // Neutral Rose
+            "💖",
+            "家族と人間関係", // Kazoku to ningen kankei
+            "Sertifikat Silsilah Keluarga & Sosial"
+        )
+        "Perasaan & Kesehatan" -> CertificateTheme(
+            category,
+            Color(0xFF2E7D32), // Green
+            Color(0xFFE8F5E9), // Light Green
+            Color(0xFFF5FBF5), // Neutral Green
+            "🍀",
+            "感情と健康", // Kanjou to kenkou
+            "Sertifikat Emosi & Kesehatan Jepang"
+        )
+        "Cuaca & Musim" -> CertificateTheme(
+            category,
+            Color(0xFFF57F17), // Yellow/Gold
+            Color(0xFFFFFDE7), // Light Yellow
+            Color(0xFFFFFFF4), // Neutral Yellow
+            "☀️",
+            "天気と四季", // Tenki to shiki
+            "Sertifikat Cuaca & Empat Musim Jepang"
+        )
+        "Belanja & Pasar" -> CertificateTheme(
+            category,
+            Color(0xFF7B1FA2), // Violet
+            Color(0xFFF3E5F5), // Light Violet
+            Color(0xFFFCF7FD), // Neutral Violet
+            "🛍️",
+            "買い物と市場", // Kaimono to ichiba
+            "Sertifikat Transaksi & Belanja"
+        )
+        "Pendidikan & Sekolah" -> CertificateTheme(
+            category,
+            Color(0xFF1565C0), // Dark Blue
+            Color(0xFFE3F2FD), // Light Blue
+            Color(0xFFF0F7FF), // Neutral Blue
+            "🎓",
+            "教育と学校", // Kyouiku to gakkou
+            "Sertifikat Akademik & Istilah Sekolah"
+        )
+        "Hobi & Rekreasi" -> CertificateTheme(
+            category,
+            Color(0xFF8E24AA), // Deep Purple
+            Color(0xFFF3E5F5), // Light Purple
+            Color(0xFFFBF7FC), // Neutral Ash Purple
+            "🎮",
+            "趣味と娯楽", // Shumi to goraku
+            "Sertifikat Kelulusan Hobi & Rekreasi"
+        )
+        "Hewan & Alam" -> CertificateTheme(
+            category,
+            Color(0xFF43A047), // Green
+            Color(0xFFE8F5E9), // Light Green
+            Color(0xFFF6FBF6), // Neutral Sage Green
+            "🦁",
+            "動物と自然", // Doubutsu to shizen
+            "Sertifikat Pengetahuan Fauna & Alam"
+        )
+        "Pekerjaan & Karir" -> CertificateTheme(
+            category,
+            Color(0xFF00897B), // Teal
+            Color(0xFFE0F2F1), // Light Teal
+            Color(0xFFF4FAF9), // Neutral Sky Teal
+            "💼",
+            "仕事と職業", // Shigoto to shokugyou
+            "Sertifikat Penguasaan Karir & Profesi"
+        )
+        "Warna & Desain" -> CertificateTheme(
+            category,
+            Color(0xFF3949AB), // Indigo
+            Color(0xFFE8EAF6), // Light Indigo
+            Color(0xFFF5F6FC), // Neutral Cool White
+            "🎨",
+            "色彩と形状", // Shikisai to keijou
+            "Sertifikat Kosakata Warna & Estetika"
+        )
+        "Transportasi Umum" -> CertificateTheme(
+            category,
+            Color(0xFFE53935), // Crimson Red
+            Color(0xFFFFEBEE), // Light Red
+            Color(0xFFFFF7F7), // Neutral Soft Crimson
+            "🚊",
+            "交通と車量", // Koutsuu to sharyou
+            "Sertifikat Penunjuk Transportasi & Komuter"
+        )
+        "Rumah & Peralatan" -> CertificateTheme(
+            category,
+            Color(0xFF6D4C41), // Brown
+            Color(0xFFEFEBE9), // Light Brown
+            Color(0xFFFBF9F8), // Neutral Warm Gray
+            "🏠",
+            "家庭と電化製品", // Katei to denkaseihin
+            "Sertifikat Perlengkapan Domestik & Rumah"
+        )
+        else -> CertificateTheme(
+            category,
+            Color(0xFF3F51B5), // Indigo default
+            Color(0xFFE8EAF6),
+            Color(0xFFF5F6FC),
+            "📜",
+            "日本語能力認定", // Nihongo nouryoku nintei
+            "Sertifikat Kelulusan Bab Jepang"
+        )
+    }
+}
+
+@Composable
+fun QuizCertificateDialog(
+    categoryName: String,
+    score: Int,
+    totalQuestions: Int,
+    onDismiss: () -> Unit
+) {
+    val theme = getCertificateTheme(categoryName)
+    val pct = if (totalQuestions > 0) (score * 100) / totalQuestions else 0
+    
+    val predicate = when {
+        pct >= 90 -> Pair("Yû (優 - Sangat Istimewa) 🏆", "Dengan Pujian Tertinggi")
+        pct >= 75 -> Pair("Ryô (良 - Sangat Baik) 👑", "Dengan Hasil Sangat Memuaskan")
+        pct >= 50 -> Pair("Ka (可 - Cukup/Lulus) 👍", "Lulus Evaluasi")
+        else -> Pair("Fuka (不可 - Belum Lulus) 📖", "Partisipasi Evaluasi")
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.75f))
+            .clickable(enabled = true, onClick = onDismiss)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(0.95f)
+                .clickable(enabled = false) {}
+                .padding(vertical = 12.dp),
+            colors = CardDefaults.cardColors(containerColor = theme.backgroundColor),
+            shape = RoundedCornerShape(20.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .drawBehind {
+                        drawCircle(
+                            color = theme.primaryColor.copy(alpha = 0.04f),
+                            radius = 180.dp.toPx(),
+                            center = Offset(size.width * 0.1f, size.height * 0.2f)
+                        )
+                        drawCircle(
+                            color = theme.primaryColor.copy(alpha = 0.05f),
+                            radius = 220.dp.toPx(),
+                            center = Offset(size.width * 0.9f, size.height * 0.8f)
+                        )
+                    }
+                    .border(
+                        width = 4.dp,
+                        brush = Brush.linearGradient(listOf(Color(0xFFD4AF37), Color(0xFF996515))),
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .padding(3.dp)
+                    .border(
+                        width = 1.dp,
+                        color = theme.primaryColor.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(17.dp)
+                    )
+                    .padding(18.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "修了証書",
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Black,
+                    color = theme.primaryColor,
+                    textAlign = TextAlign.Center,
+                    fontFamily = androidx.compose.ui.text.font.FontFamily.Serif
+                )
+                
+                Text(
+                    text = "SERTIFIKAT KELULUSAN",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = DeepZenNavy,
+                    letterSpacing = 2.sp,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+                
+                Spacer(modifier = Modifier.height(10.dp))
+                
+                Box(
+                    modifier = Modifier
+                        .background(theme.primaryColor.copy(alpha = 0.15f), shape = CircleShape)
+                        .padding(horizontal = 14.dp, vertical = 6.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(text = theme.emoji, fontSize = 20.sp)
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = categoryName,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Black,
+                            color = theme.primaryColor
+                        )
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(14.dp))
+                
+                Text(
+                    text = "Diberikan Kepada Siswa Berprestasi Atas Kelulusannya Pada:",
+                    fontSize = 10.sp,
+                    color = Color.DarkGray,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+                
+                Text(
+                    text = theme.certName,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = DeepZenNavy,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                
+                Text(
+                    text = "\"${theme.kanjiTitle}\"",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = theme.primaryColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 2.dp)
+                )
+                
+                Spacer(modifier = Modifier.height(14.dp))
+                
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(14.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "PREDIKAT KELULUSAN",
+                            fontSize = 8.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Gray,
+                            letterSpacing = 1.5.sp
+                        )
+                        Text(
+                            text = predicate.first,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Black,
+                            color = theme.primaryColor,
+                            modifier = Modifier.padding(vertical = 2.dp)
+                        )
+                        Text(
+                            text = predicate.second,
+                            fontSize = 10.sp,
+                            color = Color.DarkGray
+                        )
+                        
+                        Spacer(modifier = Modifier.height(8.dp))
+                        
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("SKOR UJIAN", fontSize = 8.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
+                                Text("$score dari $totalQuestions", fontSize = 14.sp, color = DeepZenNavy, fontWeight = FontWeight.Black)
+                            }
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("PRESENTASE", fontSize = 8.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
+                                Text("$pct%", fontSize = 14.sp, color = DeepZenNavy, fontWeight = FontWeight.Black)
+                            }
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text("STATUS", fontSize = 8.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
+                                Text(if (pct >= 50) "LULUS ✓" else "REMEDIAL ⚠", fontSize = 14.sp, color = if (pct >= 50) Color(0xFF2E7D32) else Color(0xFFD32F2F), fontWeight = FontWeight.Black)
+                            }
+                        }
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "さくら 先生",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = theme.primaryColor,
+                            fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Box(
+                            modifier = Modifier
+                                .width(80.dp)
+                                .height(1.dp)
+                                .background(Color.Gray)
+                        )
+                        Text(
+                            text = "Sensei Sakura",
+                            fontSize = 9.sp,
+                            color = Color.Gray,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(top = 2.dp)
+                        )
+                        Text(
+                            text = "Guru Utama NihonSensei",
+                            fontSize = 8.sp,
+                            color = Color.Gray
+                        )
+                    }
+                    
+                    Box(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .border(width = 2.dp, color = Color(0xFFD32F2F), shape = CircleShape)
+                            .padding(4.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(52.dp)
+                                .border(width = 1.dp, color = Color(0xFFD32F2F).copy(alpha = 0.5f), shape = CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = "日本",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = Color(0xFFD32F2F),
+                                    lineHeight = 10.sp
+                                )
+                                Text(
+                                    text = "桜印",
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = Color(0xFFD32F2F),
+                                    lineHeight = 10.sp
+                                )
+                            }
+                        }
+                    }
+                }
+                
+                Spacer(modifier = Modifier.height(20.dp))
+                
+                Button(
+                    onClick = onDismiss,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = theme.primaryColor)
+                ) {
+                    Text("Tutup Sertifikat", fontWeight = FontWeight.Bold, color = Color.White)
+                }
             }
         }
     }

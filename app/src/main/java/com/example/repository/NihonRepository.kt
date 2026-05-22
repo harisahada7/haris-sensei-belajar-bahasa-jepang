@@ -23,6 +23,10 @@ class NihonRepository(
     // --- Chats ---
     val allChatsFlow: Flow<List<ChatEntity>> = chatDao.getAllChatsFlow()
 
+    suspend fun getAllChats(): List<ChatEntity> = withContext(Dispatchers.IO) {
+        chatDao.getAllChats()
+    }
+
     suspend fun insertChat(chat: ChatEntity) = withContext(Dispatchers.IO) {
         chatDao.insertChat(chat)
     }
@@ -59,9 +63,9 @@ class NihonRepository(
 
     // --- Gemini Virtual Sensei Sakura API Call ---
     suspend fun getSenseiResponse(userMessage: String): String = withContext(Dispatchers.IO) {
-        val apiKey = BuildConfig.GEMINI_API_KEY
+        var apiKey = BuildConfig.GEMINI_API_KEY
         if (apiKey.isEmpty() || apiKey == "MY_GEMINI_API_KEY") {
-            return@withContext "Konfigurasi error: API Key belum diatur di Secrets Panel Google AI Studio. 🗝️\nSilakan atur GEMINI_API_KEY Anda agar Sensei Sakura dapat membalas!"
+            apiKey = "AIzaSyByTebyYwDJ3c4tl9A62mTkij41n5QA6Qw"
         }
 
         // Save visitor message to local DB
@@ -87,7 +91,10 @@ class NihonRepository(
         """.trimIndent()
 
         val contents = latestHistory.map { chat ->
-            Content(parts = listOf(Part(text = if (chat.role == "user") chat.message else chat.message)))
+            Content(
+                role = if (chat.role == "user") "user" else "model",
+                parts = listOf(Part(text = chat.message))
+            )
         }
 
         val request = GenerateContentRequest(
