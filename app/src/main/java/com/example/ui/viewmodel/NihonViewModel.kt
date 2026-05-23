@@ -63,6 +63,22 @@ class NihonViewModel(
     private val _quizState = MutableStateFlow<QuizState?>(null)
     val quizState: StateFlow<QuizState?> = _quizState.asStateFlow()
 
+    // --- Anime Theme States ---
+    enum class AnimeTheme(val displayName: String, val emoji: String) {
+        SAKURA("Sakura Harmony", "🌸"),
+        NEON("Neon Otaku", "⚡"),
+        MATCHA("Chibi Matcha", "🍵"),
+        FUJI_SENSEI("Fuji Shizuka", "🗻"),
+        HINOMARU_SENSEI("Hinomaru Akiko", "🎌")
+    }
+
+    private val _currentTheme = MutableStateFlow(AnimeTheme.SAKURA)
+    val currentTheme: StateFlow<AnimeTheme> = _currentTheme.asStateFlow()
+
+    fun selectTheme(theme: AnimeTheme) {
+        _currentTheme.value = theme
+    }
+
     init {
         try {
             // Initialize Android Text-to-Speech specifically set for Japanese language

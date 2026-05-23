@@ -1,5 +1,5 @@
 {
-  "name": "Haris Ahada",
+  "name": "Belajar Bahasa jepang",
   "description": "Belajar Bahasa Jepang interaktif dengan Guru Virtual bertenaga AI (Sensei Sakura) serta latihan kuis kosakata dan tata bahasa lengkap dengan skor dan riwayat belajar.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
